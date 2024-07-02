@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Alimentos Naturais</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .foods-list, .added-foods {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .foods-list h2, .added-foods h2 {
+            margin-top: 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            background-color: #f0f0f0;
+            margin-bottom: 8px;
+        }
+
+        li:hover {
+            background-color: #e0e0e0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="foods-list">
+            <h2>Lista de Alimentos</h2>
+            <ul id="foods">
+                <li>Maçã</li>
+                <li>Banana</li>
+                <li>Laranja</li>
+                <li>Morango</li>
+                <li>Abacate</li>
+            </ul>
+        </div>
+        <div class="added-foods">
+            <h2>Alimentos Adicionados</h2>
+            <table id="addedFoodsTable">
+                <!-- Tabela para exibir os alimentos adicionados -->
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const foodsList = document.getElementById('foods');
+            const addedFoodsTable = document.getElementById('addedFoodsTable');
+
+            // Adicionar evento de clique aos itens da lista de alimentos
+            foodsList.addEventListener('click', function(event) {
+                if (event.target.tagName === 'LI') {
+                    const foodName = event.target.textContent;
+
+                    // Verificar se o alimento já foi adicionado
+                    const addedFoods = Array.from(addedFoodsTable.querySelectorAll('td:first-child')).map(td => td.textContent);
+                    if (addedFoods.includes(foodName)) {
+                        alert('Este alimento já foi adicionado!');
+                        return;
+                    }
+
+                    // Criar nova linha na tabela de alimentos adicionados
+                    const newRow = addedFoodsTable.insertRow();
+                    const cell1 = newRow.insertCell(0);
+                    const cell2 = newRow.insertCell(1);
+                    cell1.textContent = foodName;
+                    cell2.innerHTML = '<button onclick="removeFood(this)">Remover</button>';
+                }
+            });
+
+            // Função para remover alimento da tabela
+            window.removeFood = function(button) {
+                const row = button.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+            };
+        });
+    </script>
+</body>
+</html>
